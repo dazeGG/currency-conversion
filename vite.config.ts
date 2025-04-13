@@ -5,14 +5,14 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue({
-      script: {
-        defineModel: true,
-      },
-    }),
-  ],
-  resolve: {
-    alias: { '@': path.resolve(__dirname, 'src') },
-  },
+	plugins: [
+		vue({
+			script: {
+				defineModel: true,
+			},
+		}),
+	],
+	resolve: {
+		alias: { '@': path.resolve(__dirname, 'src') },
+	},
 })

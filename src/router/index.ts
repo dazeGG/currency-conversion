@@ -3,7 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 const routes = [
 	{
 		path: '/',
-		component: () => import('@/pages/HomePage.vue')
+		component: () => import('@/pages/HomePage.vue'),
 	},
 	// {
 	// 	path: '/:pathMatch(.*)*',
