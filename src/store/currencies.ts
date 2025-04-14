@@ -25,6 +25,12 @@ export const useCurrenciesStore = defineStore('currencies', () => {
 		currenciesRatios.value = await CurrencyServices.getCurrenciesRatios()
 	}
 
+	const init = () => {
+		loadCurrenciesRatios()
+	}
+
+	init()
+
 	return {
 		baseCurrency,
 		saveBaseCurrency,
