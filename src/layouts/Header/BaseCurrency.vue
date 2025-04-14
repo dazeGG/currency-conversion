@@ -9,7 +9,7 @@ import type { SelectOption } from 'naive-ui'
 const currenciesStore = useCurrenciesStore()
 
 const options = computed<SelectOption[]>(() =>
-	currenciesStore.currenciesList.map(currency => ({ label: currency, value: currency })))
+	currenciesStore.currenciesList.map(currency => ({ label: currency.toUpperCase(), value: currency })))
 </script>
 
 <template>
