@@ -3,6 +3,12 @@ import { defineStore } from 'pinia'
 import { CurrencyServices } from '@/lib/api/services'
 
 export const useCurrenciesStore = defineStore('currencies', () => {
+	const baseCurrency = ref<string>(localStorage.getItem('baseCurrency') ?? 'rub')
+
+	const saveBaseCurrency = (): void => {
+		localStorage.setItem('baseCurrency', baseCurrency.value)
+	}
+
 	const currenciesRatios = ref<Record<string, number>>({})
 
 	const currenciesList = computed<string[]>(() => {
@@ -15,11 +21,13 @@ export const useCurrenciesStore = defineStore('currencies', () => {
 		return Array.from(currencies)
 	})
 
-	const loadCurrenciesRatios = async () => {
+	const loadCurrenciesRatios = async (): Promise<void> => {
 		currenciesRatios.value = await CurrencyServices.getCurrenciesRatios()
 	}
 
 	return {
+		baseCurrency,
+		saveBaseCurrency,
 		currenciesRatios,
 		currenciesList,
 		loadCurrenciesRatios,
