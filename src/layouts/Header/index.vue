@@ -4,7 +4,7 @@ import Navbar from '@/layouts/Navbar/index.vue'
 
 <template>
 	<div class="flex justify-between py-2">
-		<a href="https://github.com/dazeGG">
+		<a href="https://github.com/dazeGG" target="_blank">
 			<h2>dazeGG</h2>
 		</a>
 		<Navbar />
