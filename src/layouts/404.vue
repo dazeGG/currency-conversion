@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-col gap-4 justify-center items-center w-full" :style="{ height: '100vh' }">
 		<h1>404 | Not Found</h1>
-		<NButton @click="routeToProductsPage">Go to products page</NButton>
+		<NButton @click="routeToProductsPage">Go to home page</NButton>
 	</div>
 </template>
 
@@ -12,5 +12,5 @@ import { NButton } from 'naive-ui'
 
 const router = useRouter()
 
-const routeToProductsPage = () => router.push('/products')
+const routeToProductsPage = () => router.push('/')
 </script>
