@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, watch, nextTick } from 'vue'
 import { useCurrenciesStore } from '@/store'
 import { generateOptionsToCurrencies } from '@/lib/utils'
 
@@ -32,14 +32,7 @@ const firstCurrencySelectOptions = computed<SelectOption[]>(() =>
 const secondCurrencySelectOptions = computed<SelectOption[]>(() =>
 	generateOptionsToCurrencies(currenciesStore.currenciesList.filter(currency => currency !== convertItems[0].currency)))
 
-const roundValue = (value: number): number => {
-	const roundedValue = Math.round(value * 100) / 100
-	if (roundedValue !== 0) {
-		return roundedValue
-	} else {
-		return Math.round(value * 100000) / 100000
-	}
-}
+const roundValue = (value: number): number => Math.round(value * 100) / 100
 
 const syncFirstValue = (): void => {
 	const convertRatio = currenciesStore.getCurrenciesRatio(convertItems[0].currency, convertItems[1].currency)
@@ -48,14 +41,18 @@ const syncFirstValue = (): void => {
 	}
 }
 
-const syncSecondValue = () => {
+const syncSecondValue = (): void => {
 	const convertRatio = currenciesStore.getCurrenciesRatio(convertItems[1].currency, convertItems[0].currency)
 	if (convertRatio) {
 		convertItems[1].value = roundValue(convertItems[0].value * convertRatio)
 	}
 }
 
-const initConvertItems = () => {
+const saveConvertCurrencies = (): void => {
+	localStorage.setItem('convertCurrencies', convertItems[0].currency + '-' + convertItems[1].currency)
+}
+
+const initConvertItems = (): void => {
 	const convertCurrencies = localStorage.getItem('convertCurrencies') ?? null
 	if (convertCurrencies) {
 		const convertCurrenciesItems = convertCurrencies.split('-')
@@ -85,7 +82,13 @@ watch(
 	<div class="flex gap-2">
 		<NInputGroup>
 			<NInputNumber v-model:value="convertItems[0].value" :show-button="false" @input="syncSecondValue" />
-			<NSelect v-model:value="convertItems[0].currency" :options="firstCurrencySelectOptions" class="max-w-20" />
+			<NSelect
+				v-model:value="convertItems[0].currency"
+				:options="firstCurrencySelectOptions"
+				class="max-w-20"
+				@update:value="syncSecondValue"
+				@updateValue="() => nextTick(saveConvertCurrencies)"
+			/>
 		</NInputGroup>
 		<NButton quaternary>
 			<template #icon>
@@ -94,7 +97,13 @@ watch(
 		</NButton>
 		<NInputGroup>
 			<NInputNumber v-model:value="convertItems[1].value" :show-button="false" @input="syncFirstValue" />
-			<NSelect v-model:value="convertItems[1].currency" :options="secondCurrencySelectOptions" class="max-w-20" />
+			<NSelect
+				v-model:value="convertItems[1].currency"
+				:options="secondCurrencySelectOptions"
+				class="max-w-20"
+				@update:value="syncFirstValue"
+				@updateValue="() => nextTick(saveConvertCurrencies)"
+			/>
 		</NInputGroup>
 	</div>
 </template>
