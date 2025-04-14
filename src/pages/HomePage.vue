@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { CurrencyServices } from '@/lib/api/services'
+import { useCurrenciesStore } from '@/store'
+
+const currenciesStore = useCurrenciesStore()
 
 const created = async () => {
-	const currencies = await CurrencyServices.getCurrencies()
-	console.log(currencies)
+	await currenciesStore.loadCurrenciesRatios()
+	console.log(currenciesStore.currenciesList)
 }
 
 created()

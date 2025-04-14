@@ -1,8 +1,8 @@
 import { CurrencyMethods } from '@/lib/api/methods'
 
 class CurrenciesServices {
-	async getCurrencies () {
-		const res = await CurrencyMethods.getCurrencies()
+	async getCurrenciesRatios () {
+		const res = await CurrencyMethods.getCurrenciesRatios()
 		return res.data
 	}
 }

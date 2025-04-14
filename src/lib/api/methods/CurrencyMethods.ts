@@ -1,7 +1,7 @@
 import API from '@/lib/api'
 
 class CurrencyMethods {
-	getCurrencies () {
+	getCurrenciesRatios () {
 		return API.get('/currency')
 	}
 }
