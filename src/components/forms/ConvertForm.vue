@@ -4,6 +4,7 @@ import { useCurrenciesStore } from '@/store'
 import { generateOptionsToCurrencies } from '@/lib/utils'
 
 import { NInputGroup, NInputNumber, NSelect, NButton } from 'naive-ui'
+import { Icon } from '@iconify/vue'
 
 import type { SelectOption } from 'naive-ui'
 
@@ -36,12 +37,16 @@ const secondCurrencySelectOptions = computed<SelectOption[]>(() =>
 	<div class="flex gap-2">
 		<NInputGroup>
 			<NInputNumber v-model:value="convertItems[0].value" :show-button="false" />
-			<NSelect v-model:value="convertItems[0].currency" :options="firstCurrencySelectOptions" />
+			<NSelect v-model:value="convertItems[0].currency" :options="firstCurrencySelectOptions" class="max-w-20" />
 		</NInputGroup>
-		<NButton />
+		<NButton quaternary>
+			<template #icon>
+				<Icon icon="ph:arrows-left-right-light" />
+			</template>
+		</NButton>
 		<NInputGroup>
 			<NInputNumber v-model:value="convertItems[1].value" :show-button="false" />
-			<NSelect v-model:value="convertItems[1].currency" :options="secondCurrencySelectOptions" />
+			<NSelect v-model:value="convertItems[1].currency" :options="secondCurrencySelectOptions" class="max-w-20" />
 		</NInputGroup>
 	</div>
 </template>
