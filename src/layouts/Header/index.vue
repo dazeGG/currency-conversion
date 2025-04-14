@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import Navbar from '@/layouts/Navbar/index.vue'
+import BaseCurrency from '@/layouts/Header/BaseCurrency.vue'
+import Navbar from '@/layouts/Header/Navbar.vue'
 </script>
 
 <template>
@@ -7,6 +8,9 @@ import Navbar from '@/layouts/Navbar/index.vue'
 		<a href="https://github.com/dazeGG" target="_blank">
 			<h2>dazeGG</h2>
 		</a>
-		<Navbar />
+		<div class="flex gap-2 items-center">
+			<Navbar />
+			<BaseCurrency />
+		</div>
 	</div>
 </template>
