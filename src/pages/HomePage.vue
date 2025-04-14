@@ -5,10 +5,10 @@ import { useCurrenciesStore } from '@/store'
 const currenciesStore = useCurrenciesStore()
 
 const currenciesListExceptBase = computed<string[]>(() =>
-	currenciesStore.currenciesList.filter(currency => currency !== currenciesStore.getBaseCurrency))
+	currenciesStore.currenciesList.filter(currency => currency !== currenciesStore.baseCurrency))
 
 const getFormattedCurrencyView = (currency: string): string | null => {
-	const baseCurrency = currenciesStore.getBaseCurrency.toUpperCase()
+	const baseCurrency = currenciesStore.baseCurrency.toUpperCase()
 	const currencyRatio = currenciesStore.getCurrenciesRatio(currency)
 
 	if (currencyRatio) {
@@ -26,7 +26,7 @@ const getFormattedCurrencyView = (currency: string): string | null => {
 <template>
 	<div>
 		<h1>Курсы валют</h1>
-		<div class="flex flex-col">
+		<div class="flex flex-col mt-2">
 			<div v-for="currency in currenciesListExceptBase" :key="currency">
 				<span v-if="getFormattedCurrencyView(currency)">{{ getFormattedCurrencyView(currency) }}</span>
 			</div>
