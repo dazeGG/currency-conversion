@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-4 justify-center items-center w-full" :style="{ height: '100vh' }">
-		<h1>404 | Not Found</h1>
+		<h1>{{ props.code }} | {{ props.message }}</h1>
 		<NButton @click="routeToProductsPage">Go to home page</NButton>
 	</div>
 </template>
@@ -11,6 +11,17 @@ import { useRouter } from 'vue-router'
 import { NButton } from 'naive-ui'
 
 const router = useRouter()
+
+const props = withDefaults(
+	defineProps<{
+		code?: number
+		message?: string
+	}>(),
+	{
+		code: 404,
+		message: 'Not Found',
+	},
+)
 
 const routeToProductsPage = () => router.push('/')
 </script>

@@ -7,7 +7,8 @@ const routes = [
 	},
 	{
 		path: '/:pathMatch(.*)*',
-		component: () => import('@/layouts/404.vue'),
+		name: '404',
+		component: () => import('@/layouts/ErrorLayout.vue'),
 	},
 ]
 
