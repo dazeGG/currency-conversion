@@ -5,10 +5,10 @@ const routes = [
 		path: '/',
 		component: () => import('@/pages/HomePage.vue'),
 	},
-	// {
-	// 	path: '/:pathMatch(.*)*',
-	// 	component: () => import('@/layouts/404.vue'),
-	// },
+	{
+		path: '/:pathMatch(.*)*',
+		component: () => import('@/layouts/404.vue'),
+	},
 ]
 
 const router = createRouter({
