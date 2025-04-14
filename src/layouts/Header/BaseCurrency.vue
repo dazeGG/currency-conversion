@@ -20,6 +20,7 @@ const changeBaseCurrency = (newBaseCurrency: string) => {
 	<NSelect
 		:value="currenciesStore.baseCurrency"
 		:options="options"
+		size="small"
 		class="min-w-20"
 		@update:value="changeBaseCurrency"
 	/>
