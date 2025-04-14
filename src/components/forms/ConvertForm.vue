@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, watch, nextTick } from 'vue'
+import { cloneDeep } from 'lodash'
 import { useCurrenciesStore } from '@/store'
 import { generateOptionsToCurrencies } from '@/lib/utils'
 
@@ -48,6 +49,12 @@ const syncSecondValue = (): void => {
 	}
 }
 
+const swapConvertItems = () => {
+	const tmpConvertItem = cloneDeep(convertItems[0])
+	convertItems[0] = cloneDeep(convertItems[1])
+	convertItems[1] = cloneDeep(tmpConvertItem)
+}
+
 const saveConvertCurrencies = (): void => {
 	localStorage.setItem('convertCurrencies', convertItems[0].currency + '-' + convertItems[1].currency)
 }
@@ -90,7 +97,7 @@ watch(
 				@updateValue="() => nextTick(saveConvertCurrencies)"
 			/>
 		</NInputGroup>
-		<NButton quaternary>
+		<NButton quaternary @click="swapConvertItems">
 			<template #icon>
 				<Icon icon="ph:arrows-left-right-light" />
 			</template>
