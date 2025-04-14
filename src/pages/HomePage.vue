@@ -25,7 +25,7 @@ const getFormattedCurrencyView = (currency: string): string | null => {
 
 <template>
 	<div>
-		<h1>Курсы валют</h1>
+		<h3>Курсы валют к основной валюте</h3>
 		<div class="flex flex-col mt-2">
 			<div v-for="currency in currenciesListExceptBase" :key="currency">
 				<span v-if="getFormattedCurrencyView(currency)">{{ getFormattedCurrencyView(currency) }}</span>

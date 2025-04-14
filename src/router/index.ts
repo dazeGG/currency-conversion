@@ -7,6 +7,11 @@ const routes = [
 		component: () => import('@/pages/HomePage.vue'),
 	},
 	{
+		path: '/convert',
+		name: 'convert',
+		component: () => import('@/pages/ConvertPage.vue'),
+	},
+	{
 		path: '/:pathMatch(.*)*',
 		name: '404',
 		component: () => import('@/layouts/ErrorLayout.vue'),

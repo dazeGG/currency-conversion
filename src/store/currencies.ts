@@ -33,7 +33,7 @@ export const useCurrenciesStore = defineStore('currencies', () => {
 	}
 
 	const getCurrenciesRatio = (currency: string, conversionCurrency?: string): number | null => {
-		return currenciesRatios.value[conversionCurrency ?? baseCurrency.value + '-' + currency] ?? null
+		return currenciesRatios.value[(conversionCurrency ?? baseCurrency.value) + '-' + currency] ?? null
 	}
 
 	const init = () => {
