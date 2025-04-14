@@ -9,6 +9,13 @@ export const useCurrenciesStore = defineStore('currencies', () => {
 		localStorage.setItem('baseCurrency', baseCurrency.value)
 	}
 
+	const getBaseCurrency = computed<string>(() => baseCurrency.value)
+
+	const setBaseCurrency = (newBaseCurrency: string): void => {
+		baseCurrency.value = newBaseCurrency
+		saveBaseCurrency()
+	}
+
 	const currenciesRatios = ref<Record<string, number>>({})
 
 	const currenciesList = computed<string[]>(() => {
@@ -25,11 +32,22 @@ export const useCurrenciesStore = defineStore('currencies', () => {
 		currenciesRatios.value = await CurrencyServices.getCurrenciesRatios()
 	}
 
+	const getCurrenciesRatio = (currency: string, conversionCurrency?: string): number | null => {
+		return currenciesRatios.value[conversionCurrency ?? baseCurrency.value + '-' + currency] ?? null
+	}
+
+	const init = () => {
+		loadCurrenciesRatios()
+	}
+
+	init()
+
 	return {
-		baseCurrency,
-		saveBaseCurrency,
+		baseCurrency: getBaseCurrency,
+		setBaseCurrency,
 		currenciesRatios,
 		currenciesList,
 		loadCurrenciesRatios,
+		getCurrenciesRatio,
 	}
 })
