@@ -27,17 +27,12 @@ const convertItems = reactive<[IConvert, IConvert]>([
 
 const roundValue = (value: number): number => Math.round(value * 100) / 100
 
-const syncFirstValue = (): void => {
-	const convertRatio = currenciesStore.getCurrenciesRatio(convertItems[0].currency, convertItems[1].currency)
-	if (convertRatio) {
-		convertItems[0].value = roundValue(convertItems[1].value * convertRatio)
-	}
-}
+const sync = (i: 0 | 1): void => {
+	const j: number = (i + 1) % 2
 
-const syncSecondValue = (): void => {
-	const convertRatio = currenciesStore.getCurrenciesRatio(convertItems[1].currency, convertItems[0].currency)
+	const convertRatio = currenciesStore.getCurrenciesRatio(convertItems[i].currency, convertItems[j].currency)
 	if (convertRatio) {
-		convertItems[1].value = roundValue(convertItems[0].value * convertRatio)
+		convertItems[i].value = roundValue(convertItems[j].value * convertRatio)
 	}
 }
 
@@ -59,7 +54,7 @@ const initConvertItems = (): void => {
 		convertItems[1].currency = convertCurrenciesItems[1]
 	}
 	convertItems[0].value = 1
-	syncSecondValue()
+	sync(1)
 }
 
 const created = () => {
@@ -83,7 +78,7 @@ watch(
 			v-model:value="convertItems[0].value"
 			v-model:currency="convertItems[0].currency"
 			:second-currency="convertItems[1].currency"
-			@sync="syncSecondValue"
+			@sync="sync(1)"
 			@update:currency="saveConvertCurrencies"
 		/>
 		<NButton quaternary @click="swapConvertItems">
@@ -95,7 +90,7 @@ watch(
 			v-model:value="convertItems[1].value"
 			v-model:currency="convertItems[1].currency"
 			:second-currency="convertItems[0].currency"
-			@sync="syncFirstValue"
+			@sync="sync(0)"
 			@update:currency="saveConvertCurrencies"
 		/>
 	</div>
