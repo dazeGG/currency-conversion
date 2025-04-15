@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, watch, nextTick } from 'vue'
+import { reactive, watch } from 'vue'
 import { cloneDeep } from 'lodash'
 import { useCurrenciesStore } from '@/store'
-import { generateOptionsToCurrencies } from '@/lib/utils'
 
-import { NInputGroup, NInputNumber, NSelect, NButton } from 'naive-ui'
+import { NButton } from 'naive-ui'
 import { Icon } from '@iconify/vue'
-
-import type { SelectOption } from 'naive-ui'
+import ConvertInputGroup from '@/components/forms/ConvertForm/ConvertInputGroup.vue'
 
 type IConvert = {
 	currency: string
@@ -26,12 +24,6 @@ const convertItems = reactive<[IConvert, IConvert]>([
 		value: 0,
 	},
 ])
-
-const firstCurrencySelectOptions = computed<SelectOption[]>(() =>
-	generateOptionsToCurrencies(currenciesStore.currenciesList.filter(currency => currency !== convertItems[1].currency)))
-
-const secondCurrencySelectOptions = computed<SelectOption[]>(() =>
-	generateOptionsToCurrencies(currenciesStore.currenciesList.filter(currency => currency !== convertItems[0].currency)))
 
 const roundValue = (value: number): number => Math.round(value * 100) / 100
 
@@ -87,30 +79,24 @@ watch(
 
 <template>
 	<div class="flex gap-2">
-		<NInputGroup>
-			<NInputNumber v-model:value="convertItems[0].value" :show-button="false" @input="syncSecondValue" />
-			<NSelect
-				v-model:value="convertItems[0].currency"
-				:options="firstCurrencySelectOptions"
-				class="max-w-20"
-				@update:value="syncSecondValue"
-				@updateValue="() => nextTick(saveConvertCurrencies)"
-			/>
-		</NInputGroup>
+		<ConvertInputGroup
+			v-model:value="convertItems[0].value"
+			v-model:currency="convertItems[0].currency"
+			:second-currency="convertItems[1].currency"
+			@sync="syncSecondValue"
+			@update:currency="saveConvertCurrencies"
+		/>
 		<NButton quaternary @click="swapConvertItems">
 			<template #icon>
 				<Icon icon="ph:arrows-left-right-light" />
 			</template>
 		</NButton>
-		<NInputGroup>
-			<NInputNumber v-model:value="convertItems[1].value" :show-button="false" @input="syncFirstValue" />
-			<NSelect
-				v-model:value="convertItems[1].currency"
-				:options="secondCurrencySelectOptions"
-				class="max-w-20"
-				@update:value="syncFirstValue"
-				@updateValue="() => nextTick(saveConvertCurrencies)"
-			/>
-		</NInputGroup>
+		<ConvertInputGroup
+			v-model:value="convertItems[1].value"
+			v-model:currency="convertItems[1].currency"
+			:second-currency="convertItems[0].currency"
+			@sync="syncFirstValue"
+			@update:currency="saveConvertCurrencies"
+		/>
 	</div>
 </template>
