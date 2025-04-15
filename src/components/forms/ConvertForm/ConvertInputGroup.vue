@@ -2,14 +2,14 @@
 import { useCurrenciesStore } from '@/store'
 import { generateOptionsToCurrencies } from '@/lib/utils'
 
-import { computed, nextTick } from 'vue'
+import { computed } from 'vue'
 import { NInputGroup, NInputNumber, NSelect } from 'naive-ui'
 
 import type { SelectOption } from 'naive-ui'
 
 const currenciesStore = useCurrenciesStore()
 
-const value = defineModel<number>('value', { required: true })
+const value = defineModel<number | null>('value', { default: null })
 const currency = defineModel<string>('currency', { required: true })
 
 const emit = defineEmits<{
@@ -36,7 +36,6 @@ const currencies = computed<SelectOption[]>(() =>
 			:options="currencies"
 			class="max-w-20"
 			@update:value="sync"
-			@updateValue="() => nextTick(saveConvertCurrencies)"
 		/>
 	</NInputGroup>
 </template>
